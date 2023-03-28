@@ -7,11 +7,12 @@ import Footer from '../../components/Footer';
 import Button from '../../components/Button';
 import Review from '../../components/Reviews/Review';
 // import Loading from '../../components/Loading';
-import login from '../../lib/login';
+// import login from '../../lib/auth/login';
 import axios from 'axios';
 
 const CampGroundPage = ({ campInfo }) => {
-  const isLoggedIn = login();
+  // const isLoggedIn = login();
+  const isLoggedIn = false;
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {

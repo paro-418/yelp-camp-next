@@ -1,30 +1,38 @@
 import React from 'react';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import classes from './Login.module.css';
 import Button from '../../components/Button';
+import axios from 'axios';
+import login from '../../lib/auth/login';
+import signup from '../../lib/auth/signup';
 
 const SignupPage = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    // if (login()) {
-    //   router.back();
-    // }
-  }, []);
-
   // this state is to toggle between create or sing in function
-  const [createOrLogin, setSetCreateOrLogin] = useState(true);
+  const [creating, setCreating] = useState(true);
   const usernameRef = useRef();
   const passwordRef = useRef();
 
   const toggleCreateOrLogin = () => {
-    setSetCreateOrLogin(!createOrLogin);
+    setCreating(!creating);
   };
 
   const formSubmitHandler = async (event) => {
     event.preventDefault();
+    try {
+      const username = usernameRef.current.value;
+      const password = passwordRef.current.value;
+      if (creating) {
+        signup({ username, password });
+        usernameRef.current.value = '';
+        passwordRef.current.value = '';
+      } else {
+        login({ username, password });
+      }
+    } catch (err) {
+      console.log(`CAN NOT PROCESS`, err);
+    }
   };
   return (
     <main className={classes.main}>
@@ -65,27 +73,17 @@ const SignupPage = () => {
             />
           </div>
 
-          {createOrLogin ? (
+          {creating ? (
             <Button className={classes.submitBtn} type='submit'>
-              Login
+              Create an account
             </Button>
           ) : (
             <Button className={classes.submitBtn} type='submit'>
-              Create an account
+              Login
             </Button>
           )}
         </form>
-        {createOrLogin ? (
-          <p>
-            Not a user yet? &nbsp;
-            <Button
-              callFunction={toggleCreateOrLogin}
-              className={classes.quesBtn}
-            >
-              Create an account
-            </Button>
-          </p>
-        ) : (
+        {creating ? (
           <p>
             Already a user? &nbsp;
             <Button
@@ -93,6 +91,16 @@ const SignupPage = () => {
               className={classes.quesBtn}
             >
               Sign in
+            </Button>
+          </p>
+        ) : (
+          <p>
+            Not a user yet? &nbsp;
+            <Button
+              callFunction={toggleCreateOrLogin}
+              className={classes.quesBtn}
+            >
+              Create an account
             </Button>
           </p>
         )}

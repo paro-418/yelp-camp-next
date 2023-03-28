@@ -1,8 +1,11 @@
+import React from 'react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import Button from '../Button';
 import Link from 'next/link';
 import classes from './Header.module.css';
 
 const Header = (props) => {
+  const { data: session, status } = useSession();
   const logoutHandler = () => {};
   return (
     <header className={` ${classes.Header} ${props.className}`}>
@@ -24,7 +27,7 @@ const Header = (props) => {
             </Link>
           </Button>
           <span className={classes.btnSpan}>
-            {false ? (
+            {status === 'authenticated' ? (
               <Button className={` ${classes.btn} ${classes.userName}`}>
                 <Link className={classes.Link} href='/profile'>
                   username
@@ -38,7 +41,7 @@ const Header = (props) => {
               </Button>
             )}
 
-            {false ? (
+            {status === 'authenticated' ? (
               <Button
                 callFunction={logoutHandler}
                 className={`${classes.btn} ${classes.logoutBtn}`}
