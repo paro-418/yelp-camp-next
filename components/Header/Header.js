@@ -32,7 +32,7 @@ const Header = (props) => {
               </Button>
             ) : (
               <Button className={` ${classes.btn}`}>
-                <Link className={classes.Link} href='/login'>
+                <Link className={classes.Link} href='/account/login'>
                   Login
                 </Link>
               </Button>
@@ -47,7 +47,7 @@ const Header = (props) => {
               </Button>
             ) : (
               <Button className={`${classes.createAccount} ${classes.btn} `}>
-                <Link className={classes.Link} href='/signup'>
+                <Link className={classes.Link} href='/account/signup'>
                   Create Account
                 </Link>
               </Button>

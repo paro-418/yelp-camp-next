@@ -46,7 +46,7 @@ const SearchPage = () => {
             Or add your own campground
           </Link>
         ) : (
-          <Link href='/login' className=''>
+          <Link href='/account/login' className=''>
             Or Login to add your own campground
           </Link>
         )}
