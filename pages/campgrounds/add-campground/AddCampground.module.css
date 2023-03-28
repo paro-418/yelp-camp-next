@@ -1,0 +1,79 @@
+.main {
+  min-height: 100vh;
+  padding: 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.formContainer {
+  width: 40%;
+  align-self: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin: 1.5rem 0 1rem 0;
+}
+
+.select {
+  padding: 0.7rem;
+  font-size: 1rem;
+  border-radius: 0.2rem;
+}
+
+.input,
+.textarea {
+  padding: 0.7rem;
+  border-radius: 0.2rem;
+  border: 0.5px solid rgb(162, 162, 162);
+  background-color: rgba(240, 240, 240, 0.686);
+  font-size: 1rem;
+}
+.input:focus {
+  outline: 1px solid rgb(54, 54, 54);
+}
+
+.textarea {
+  resize: none;
+  flex-grow: 1;
+}
+
+.submitBtn {
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  padding: 0.8rem 0;
+  margin-top: 2rem;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+@media screen and (max-width: 640px) {
+  .main {
+    padding: 1rem 2rem;
+    gap: 1rem;
+  }
+  .formContainer {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .label {
+    margin: 1rem 0 0.8rem 0;
+  }
+}
+@media screen and (max-width: 375px) {
+  .main {
+    padding: 0.7rem 1rem;
+  }
+}

@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRef } from 'react';
-import Header from '../components/Header/Header';
-import Select from '../components/Select';
-import Button from '../components/Button';
-import Footer from '../components/Footer';
+import Header from '../../components/Header/Header';
+import Select from '../../components/Select';
+import Button from '../../components/Button';
+import Footer from '../../components/Footer';
 
 const SearchPage = () => {
   const categoryRef = useRef();
@@ -42,11 +42,11 @@ const SearchPage = () => {
           </Button>
         </form>
         {isLoggedIn ? (
-          <Link className='' href='/campgrounds/add-campground'>
+          <Link className='underline' href='/campgrounds/add-campground'>
             Or add your own campground
           </Link>
         ) : (
-          <Link href='/account/login' className=''>
+          <Link href='/account/login' className='underline'>
             Or Login to add your own campground
           </Link>
         )}

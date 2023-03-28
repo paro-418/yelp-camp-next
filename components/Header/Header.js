@@ -5,7 +5,7 @@ import classes from './Header.module.css';
 const Header = (props) => {
   const logoutHandler = () => {};
   return (
-    <header className={`${props.header} ${classes.Header} `}>
+    <header className={` ${classes.Header} ${props.className}`}>
       <div className={classes.logoDiv}>
         <img src='/Assets/Logo.svg' alt='Logo' />
       </div>

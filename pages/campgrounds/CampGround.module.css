@@ -1,0 +1,161 @@
+.header,
+.footer {
+  width: 80vw;
+  margin: 2rem auto !important;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer {
+  margin-bottom: 2rem;
+}
+
+.main {
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+  width: 80vw;
+  margin: 2rem auto;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.mapContainer,
+.infoContainer {
+  border-radius: 0.3rem;
+  overflow: hidden;
+}
+
+.mapContainer {
+  border: 1px solid rgb(138, 138, 138);
+  flex-basis: 40%;
+  padding: 2rem;
+}
+.mapImage {
+  border: 1px solid rgb(138, 138, 138);
+  width: 100%;
+}
+
+.infoContainer {
+  flex-basis: 60%;
+}
+
+.camp {
+  border: 1px solid rgb(138, 138, 138);
+  border-radius: 0.3rem;
+  padding: 2rem;
+}
+.campImage {
+  width: 100%;
+  border-radius: 0.3rem;
+}
+
+.campInfo {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.campTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.campName {
+  font-size: 1.2rem;
+}
+
+.campDescription {
+  color: rgb(67, 67, 67);
+  line-height: 1.5;
+}
+
+.submittedBy {
+  color: rgb(94, 94, 94);
+  font-style: italic;
+}
+
+.reviews {
+  border: 1px solid rgb(138, 138, 138);
+  border-radius: 0.3rem;
+  margin-top: 2rem;
+  padding: 0 2rem 2rem 2rem;
+  /* position: relative; */
+}
+.reviewHeading {
+  border-bottom: 1px solid rgb(138, 138, 138);
+  display: inline-block;
+  padding-bottom: 0.2rem;
+  padding-top: 1rem;
+}
+
+.btnContainer {
+  width: 100%;
+  display: flex;
+  margin-top: 2rem;
+}
+
+.noReview {
+  border: 2px solid rgb(133, 133, 133);
+  border-radius: 0.2rem;
+  font-size: 1.2rem;
+  padding: 0 5rem;
+  padding: 1rem;
+  font-weight: bold;
+  color: rgb(122, 122, 122);
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reviewBtn {
+  border-radius: 0.3rem;
+  display: block;
+  margin-left: auto;
+  overflow: hidden;
+  border: none;
+}
+
+.Link {
+  padding: 1rem 2rem;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+@media screen and (max-width: 640px) {
+  .main {
+    flex-direction: column-reverse;
+  }
+  .mapContainer {
+    width: 100%;
+  }
+  .btnContainer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .noReview,
+  .reviewBtn {
+    margin: auto;
+    width: 100%;
+  }
+  .noReview {
+    font-size: 1rem;
+  }
+  .Link {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 100%;
+  }
+}
