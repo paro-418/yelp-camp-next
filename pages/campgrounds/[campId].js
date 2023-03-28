@@ -62,7 +62,7 @@ const CampGroundPage = () => {
                 {isLoggedIn ? (
                   <Button className={classes.reviewBtn}>
                     <Link
-                      href={`/campgrounds/review/post-review/${campId}`}
+                      href={`/campgrounds/review/${campId}`}
                       className={classes.Link}
                     >
                       <img
