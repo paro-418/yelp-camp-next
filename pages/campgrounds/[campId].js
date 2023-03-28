@@ -11,7 +11,7 @@ import login from '../../utils/login';
 const CampGroundPage = () => {
   const isLoggedIn = login();
   const allReviews = [];
-  const { campId } = useRouter();
+  const { campId } = useRouter().query;
   //   const [campInfo, setCampInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const campInfo = {
