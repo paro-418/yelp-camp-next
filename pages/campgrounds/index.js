@@ -4,16 +4,37 @@ import { useRef } from 'react';
 import Header from '../../components/Header/Header';
 import Select from '../../components/Select';
 import Button from '../../components/Button';
+import Card from '../../components/Card/Card';
 import Footer from '../../components/Footer';
+import CampModel from '../../Models/CampModel';
+import connectToDatabase from '../../lib/connectToDatabase';
+import { useState } from 'react';
 
-const SearchPage = () => {
+const SearchPage = ({ allCamps }) => {
+  const [camps, setCamps] = useState(allCamps);
   const categoryRef = useRef();
   const isLoggedIn = true;
-  const categories = [];
-  const allCamps = [];
+  const categories = [
+    'island',
+    'riverside',
+    'mountain',
+    'beach',
+    'waterfall',
+    'grassland',
+  ];
 
-  const formSubmitHandler = (event) => {
+  const formSubmitHandler = async (event) => {
     event.preventDefault();
+    const selected = categoryRef.current.value;
+    console.log(selected);
+    if (selected === '#') {
+      setCamps(allCamps);
+      return;
+    }
+    const filteredCamps = await allCamps.filter(
+      (camps) => camps.category === selected
+    );
+    setCamps(filteredCamps);
   };
   return (
     <main className='flex flex-col p-2 md:py-4 md:px-8 lg:py-4 lg:px-20 gap-4'>
@@ -24,8 +45,9 @@ const SearchPage = () => {
           View our hand-picked campground from all over the world, or add your
           own.
         </p>
-        <form className='flex gap-4' onSubmit={formSubmitHandler}>
+        <form className='flex gap-4'>
           <Select
+            onChange={formSubmitHandler}
             reference={categoryRef}
             className='py-2 px-4 text-[1rem] rounded border-2 border-solid border-[rgb(174,174,174)]'
             id='category'
@@ -51,11 +73,11 @@ const SearchPage = () => {
           </Link>
         )}
       </div>
-      <div className='cardContainer border-solid border-2 border-[rgb(220, 220, 220)] rounded grow overflow-hidden flex gap-8 flex-wrap my-8 mx-0 p-4 md:justify-between '>
-        {allCamps.length === 0 ? (
+      <div className='cardContainer border-solid border-2 border-[rgb(220, 220, 220)] rounded grow overflow-hidden flex gap-8 flex-wrap my-8 mx-0 p-4  '>
+        {camps.length === 0 ? (
           <p>Loading...Please wait</p>
         ) : (
-          allCamps.map((campground) => (
+          camps.map((campground) => (
             <Card key={campground._id} campground={campground} />
           ))
         )}
@@ -66,3 +88,22 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
+
+export async function getStaticProps() {
+  console.log(`i am called`);
+  connectToDatabase();
+  const data = await CampModel.find();
+
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    props: {
+      allCamps: JSON.parse(JSON.stringify(data)),
+    },
+
+    revalidate: 10,
+  };
+}

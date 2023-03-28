@@ -3,8 +3,6 @@ import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import classes from './Login.module.css';
-import login from '../../utils/login';
-import signup from '../../utils/signup';
 import Button from '../../components/Button';
 
 const SignupPage = () => {
@@ -33,7 +31,9 @@ const SignupPage = () => {
       <div className={classes.formContainer}>
         <header>
           <img src='/Assets/Logo.svg' alt='logo' />
-          <Link href='/campgrounds' className={classes.link}>Back to campgrounds</Link>
+          <Link href='/campgrounds' className={classes.link}>
+            Back to campgrounds
+          </Link>
         </header>
         <form className={classes.form} onSubmit={formSubmitHandler}>
           <h1 className={classes.h1}>

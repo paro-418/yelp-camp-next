@@ -3,6 +3,7 @@ import React from 'react';
 const Select = (props) => {
   return (
     <select
+      onChange={props.onChange}
       ref={props.reference}
       name={props.name}
       id={props.id}

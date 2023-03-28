@@ -1,31 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import classes from './CampGround.module.css';
 import Link from 'next/link';
+import CampModel from '../../Models/CampModel';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer';
 import Button from '../../components/Button';
-import Loading from '../../components/Loading';
-import login from '../../utils/login';
+import Review from '../../components/Reviews/Review';
+// import Loading from '../../components/Loading';
+import login from '../../lib/login';
+import axios from 'axios';
 
-const CampGroundPage = () => {
+const CampGroundPage = ({ campInfo }) => {
   const isLoggedIn = login();
-  const allReviews = [];
-  const { campId } = useRouter().query;
-  //   const [campInfo, setCampInfo] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const campInfo = {
-    capImage: '',
-    campDescription: 'abdkcmejcbeo sdcn cdjs cd sc sdsd c l l',
-    createdBy: 'paro',
-  };
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          `/api/campgrounds/review/get-review/${campInfo._id}`
+        );
+        setReviews(response.data.allReviews);
+      } catch (err) {}
+    };
+
+    fetchReviews();
+  }, []);
 
   return (
     <main>
       <Header className={classes.header} />
-      {loading ? (
-        <Loading />
-      ) : (
+      {
+        // loading ? (
+        //   <Loading />
+        // ) :
         <main className={classes.main}>
           <div className={classes.mapContainer}>
             <img src='/Assets/Map.png' alt='map' className={classes.mapImage} />
@@ -52,17 +60,17 @@ const CampGroundPage = () => {
             </div>
             <div className={classes.reviews}>
               <h4 className={classes.reviewHeading}>Reviews</h4>
-              {allReviews.map((review) => (
+              {reviews.map((review) => (
                 <Review key={review._id} review={review} />
               ))}
               <div className={classes.btnContainer}>
-                {allReviews.length === 0 && (
+                {reviews.length === 0 && (
                   <div className={classes.noReview}>No reviews yet</div>
                 )}
                 {isLoggedIn ? (
                   <Button className={classes.reviewBtn}>
                     <Link
-                      href={`/campgrounds/review/${campId}`}
+                      href={`/campgrounds/review/${campInfo._id}`}
                       className={classes.Link}
                     >
                       <img
@@ -87,10 +95,20 @@ const CampGroundPage = () => {
             </div>
           </div>
         </main>
-      )}
+      }
       <Footer className={classes.footer} />
     </main>
   );
 };
 
 export default CampGroundPage;
+
+export async function getServerSideProps({ params }) {
+  const { campId } = params;
+  const foundedCamp = await CampModel.findById(campId);
+  return {
+    props: {
+      campInfo: JSON.parse(JSON.stringify(foundedCamp)),
+    },
+  };
+}

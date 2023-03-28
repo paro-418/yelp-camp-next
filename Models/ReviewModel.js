@@ -1,4 +1,5 @@
 import { Schema, models, model } from 'mongoose';
+import mongoose from 'mongoose';
 
 const reviewSchema = Schema(
   {
