@@ -6,6 +6,7 @@ import classes from './Header.module.css';
 
 const Header = (props) => {
   const { data: session, status } = useSession();
+  console.log(session);
   const logoutHandler = async () => {
     try {
       await signOut({
@@ -39,7 +40,7 @@ const Header = (props) => {
             {status === 'authenticated' ? (
               <Button className={` ${classes.btn} ${classes.userName}`}>
                 <Link className={classes.Link} href='/profile'>
-                  {session.user.name}
+                  {session.user.name.username}
                 </Link>
               </Button>
             ) : (

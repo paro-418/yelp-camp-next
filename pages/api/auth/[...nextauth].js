@@ -33,19 +33,19 @@ export default NextAuth({
           throw new Error('Username & Password required');
         }
 
-        const user = await UserModel.findOne({
+        const userInfo = await UserModel.findOne({
           username: credentials.username,
         });
-        // console.log(`FOUNDED USER`, user);
+        // console.log(`FOUNDED USER`, userInfo);
 
-        if (!user) {
-          throw new Error(`No user found with this username`);
+        if (!userInfo) {
+          throw new Error(`No userInfo found with this username`);
         }
 
         // console.log('comparing passwords');
         const isCorrectPassword = await compare(
           credentials.password,
-          user.password
+          userInfo.password
         );
 
         // console.log(`CORRECT PASSWORD`, isCorrectPassword);
@@ -55,7 +55,7 @@ export default NextAuth({
         }
 
         return {
-          name: user.username,
+          name: userInfo,
         };
       },
     }),

@@ -5,6 +5,7 @@ import classes from './AddComment.module.css';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer';
 import Button from '../../../components/Button';
+import axios from 'axios';
 
 const AddReviewPage = () => {
   const { data: session } = useSession();
@@ -13,9 +14,18 @@ const AddReviewPage = () => {
 
   const reviewRef = useRef();
 
-  const formSubmitHandler = (event) => {
+  const formSubmitHandler = async (event) => {
     event.preventDefault();
-    // call axios
+    try {
+      await axios.post(`/api/campgrounds/review/post-review/${campId}`, {
+        review: reviewRef.current.value,
+        username: session.user.name.username,
+        id: session.user.name._id,
+      });
+      router.back();
+    } catch (err) {
+      console.log(`CAN NOT POST REVIEW`, err);
+    }
   };
 
   if (session === null) {
