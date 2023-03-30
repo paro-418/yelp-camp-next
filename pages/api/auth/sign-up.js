@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 import UserModel from '../../../Models/UserModel';
 
 export default async function register(req, res) {
@@ -7,19 +7,24 @@ export default async function register(req, res) {
       message: 'Invalid Route. This route only accepts POST request',
     });
 
+  if (!req.body)
+    return res.status(404).json({
+      error: 'Insufficient credentials',
+    });
+
   try {
     const { username, password } = req.body;
 
-    const existingUser = await UserModel.find({
+    const existingUser = await UserModel.findOne({
       username,
     });
 
-    if (existingUser.length === '0')
+    if (existingUser)
       return res.status(422).json({
         message: 'username already taken',
       });
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await bcryptjs.hash(password, 12);
 
     const newUser = await UserModel.create({
       username,
@@ -27,11 +32,9 @@ export default async function register(req, res) {
       rawPassword: password,
     });
 
-    // const createdUser = await newUser.save();
-
-    res.status(200).json({
+    res.status(201).json({
       message: 'success',
-      data: newUser,
+      user: newUser,
     });
   } catch (err) {
     console.log('CAN NOT CREATE USER', err);

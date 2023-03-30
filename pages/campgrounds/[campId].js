@@ -6,13 +6,11 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer';
 import Button from '../../components/Button';
 import Review from '../../components/Reviews/Review';
-// import Loading from '../../components/Loading';
-// import login from '../../lib/auth/login';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 const CampGroundPage = ({ campInfo }) => {
-  // const isLoggedIn = login();
-  const isLoggedIn = false;
+  const { status } = useSession();
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
@@ -68,7 +66,7 @@ const CampGroundPage = ({ campInfo }) => {
                 {reviews.length === 0 && (
                   <div className={classes.noReview}>No reviews yet</div>
                 )}
-                {isLoggedIn ? (
+                {status === 'authenticated' ? (
                   <Button className={classes.reviewBtn}>
                     <Link
                       href={`/campgrounds/review/${campInfo._id}`}
@@ -83,7 +81,7 @@ const CampGroundPage = ({ campInfo }) => {
                   </Button>
                 ) : (
                   <Button className={classes.reviewBtn}>
-                    <Link href='/login' className={classes.Link}>
+                    <Link href='/account/login' className={classes.Link}>
                       <img
                         src='/Assets/Login.svg'
                         alt='can not review please login to review'

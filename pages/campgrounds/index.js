@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRef } from 'react';
 import Header from '../../components/Header/Header';
@@ -7,13 +7,14 @@ import Button from '../../components/Button';
 import Card from '../../components/Card/Card';
 import Footer from '../../components/Footer';
 import CampModel from '../../Models/CampModel';
+import { useSession } from 'next-auth/react';
 import connectToDatabase from '../../lib/connectToDatabase';
-import { useState } from 'react';
+import mongoose from 'mongoose';
 
 const SearchPage = ({ allCamps }) => {
+  const { status } = useSession();
   const [camps, setCamps] = useState(allCamps);
   const categoryRef = useRef();
-  const isLoggedIn = true;
   const categories = [
     'island',
     'riverside',
@@ -63,7 +64,7 @@ const SearchPage = ({ allCamps }) => {
             search
           </Button>
         </form>
-        {isLoggedIn ? (
+        {status === 'authenticated' ? (
           <Link className='underline' href='/campgrounds/add-campground'>
             Or add your own campground
           </Link>
@@ -90,8 +91,8 @@ const SearchPage = ({ allCamps }) => {
 export default SearchPage;
 
 export async function getStaticProps() {
-  console.log(`i am called`);
-  connectToDatabase();
+  // console.log(`INDEX PAGE CONNECTION STATE`, mongoose.connection.readyState);
+  connectToDatabase(mongoose.connection.readyState);
   const data = await CampModel.find();
 
   if (!data) {

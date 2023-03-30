@@ -4,13 +4,13 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import classes from './Login.module.css';
 import Button from '../../components/Button';
+import { signIn } from 'next-auth/react';
 import axios from 'axios';
-import login from '../../lib/auth/login';
-import signup from '../../lib/auth/signup';
 
 const SignupPage = () => {
+  const { back } = useRouter();
   // this state is to toggle between create or sing in function
-  const [creating, setCreating] = useState(true);
+  const [creating, setCreating] = useState(false);
   const usernameRef = useRef();
   const passwordRef = useRef();
 
@@ -18,17 +18,39 @@ const SignupPage = () => {
     setCreating(!creating);
   };
 
+  const authenticateHandler = async (username, password) => {
+    const status = await signIn('credentials', {
+      username,
+      password,
+      redirect: false,
+      callbackUrl: '/',
+    });
+
+    if (!status.error) back();
+  };
+
   const formSubmitHandler = async (event) => {
     event.preventDefault();
     try {
       const username = usernameRef.current.value;
       const password = passwordRef.current.value;
+
+      if (username === '' || password === '') {
+        return alert('Both field is required');
+      }
       if (creating) {
-        signup({ username, password });
+        // registering user
+        await axios.post('/api/auth/sign-up', {
+          password,
+          username,
+        });
+
         usernameRef.current.value = '';
         passwordRef.current.value = '';
+        await authenticateHandler(username, password);
       } else {
-        login({ username, password });
+        // logging user in
+        await authenticateHandler(username, password);
       }
     } catch (err) {
       console.log(`CAN NOT PROCESS`, err);

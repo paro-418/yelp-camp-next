@@ -1,12 +1,21 @@
 import React from 'react';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Button from '../Button';
 import Link from 'next/link';
 import classes from './Header.module.css';
 
 const Header = (props) => {
   const { data: session, status } = useSession();
-  const logoutHandler = () => {};
+  const logoutHandler = async () => {
+    try {
+      await signOut({
+        redirect: false,
+      });
+    } catch (err) {
+      console.log('CAN NOT SIGN OUT', err);
+    }
+  };
+
   return (
     <header className={` ${classes.Header} ${props.className}`}>
       <div className={classes.logoDiv}>
@@ -30,11 +39,11 @@ const Header = (props) => {
             {status === 'authenticated' ? (
               <Button className={` ${classes.btn} ${classes.userName}`}>
                 <Link className={classes.Link} href='/profile'>
-                  username
+                  {session.user.name}
                 </Link>
               </Button>
             ) : (
-              <Button className={` ${classes.btn}`}>
+              <Button className={classes.btn}>
                 <Link className={classes.Link} href='/account/login'>
                   Login
                 </Link>
