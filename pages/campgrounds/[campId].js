@@ -8,6 +8,8 @@ import Button from '../../components/Button';
 import Review from '../../components/Reviews/Review';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
+import mongoose from 'mongoose';
+import connectToDatabase from '../../lib/connectToDatabase';
 
 const CampGroundPage = ({ campInfo }) => {
   const { status } = useSession();
@@ -103,6 +105,7 @@ const CampGroundPage = ({ campInfo }) => {
 export default CampGroundPage;
 
 export async function getServerSideProps({ params }) {
+  await connectToDatabase(mongoose.connection.readyState);
   const { campId } = params;
   const foundedCamp = await CampModel.findById(campId);
   return {
