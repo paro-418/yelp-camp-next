@@ -6,7 +6,6 @@ import classes from './Header.module.css';
 
 const Header = (props) => {
   const { data: session, status } = useSession();
-  console.log(session);
   const logoutHandler = async () => {
     try {
       await signOut({

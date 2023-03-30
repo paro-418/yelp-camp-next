@@ -43,6 +43,7 @@ const AddNewCampGroundPage = () => {
       });
 
       console.log(res);
+      router.back();
     } catch (err) {
       console.log(`CAN NOT POST CAMPGROUND`);
     }
