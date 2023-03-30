@@ -6,11 +6,19 @@ import Button from '../../../components/Button';
 import Select from '../../../components/Select';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const AddNewCampGroundPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  const categories = [];
+  const categories = [
+    'island',
+    'riverside',
+    'mountain',
+    'beach',
+    'waterfall',
+    'grassland',
+  ];
   const nameRef = useRef();
   const priceRef = useRef();
   const imageRef = useRef();
@@ -19,7 +27,25 @@ const AddNewCampGroundPage = () => {
 
   const formSubmitHandler = async (event) => {
     event.preventDefault();
-    // call axios
+    const campImage = imageRef.current.value;
+    const campName = nameRef.current.value;
+    const price = priceRef.current.value;
+    const campDescription = descriptionRef.current.value;
+    const category = categoryRef.current.value;
+    try {
+      const res = await axios.post('/api/campgrounds/add-campground', {
+        campImage,
+        campName,
+        price,
+        campDescription,
+        category,
+        createdBy: session.user.name.username,
+      });
+
+      console.log(res);
+    } catch (err) {
+      console.log(`CAN NOT POST CAMPGROUND`);
+    }
     imageRef.current.value = '';
     descriptionRef.current.value = '';
     nameRef.current.value = '';

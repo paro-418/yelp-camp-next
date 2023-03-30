@@ -105,6 +105,6 @@ export async function getStaticProps() {
       allCamps: JSON.parse(JSON.stringify(data)),
     },
 
-    revalidate: 10,
+    revalidate: 60 * 60 * 24,
   };
 }
